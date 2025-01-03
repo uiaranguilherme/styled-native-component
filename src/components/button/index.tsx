@@ -46,6 +46,7 @@ export default ({ variant ,...props}: ButtonProps) => {
     const handlePressOut = typeof props.onPressOut === "function" ? useCallFunction(finishAnimation, props.onPressOut) : finishAnimation;
 
     return(
+        
         <WhapperButton {...props} variant={variant} onPressIn={handlePressIn} onPressOut={handlePressOut}>
             {dot.inAnimation && (
                 <Animated.View style={{
