@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { ViewStyle, TextInputProps } from "react-native";
+import { ViewStyle, TextInputProps, PressableProps } from "react-native";
 
 declare namespace UxComponents {
     interface Margin {
@@ -40,6 +40,13 @@ declare namespace UxComponents {
         fullWidth?: boolean
         width?: ViewStyle["width"]
         margin?: Margin,
+    }
+
+    interface ButtonProps extends PressableProps {
+        variant: "outlined" | "text" | "container"
+        children: string
+        leftIcon?: ReactNode
+        rightIcon?: ReactNode
     }
 }
 

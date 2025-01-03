@@ -13,16 +13,16 @@ export const WhapperSectionHomePage = styled("view")({
     width: "100%"
 });
 
-export const TitleMenu = styled("text")(({ theme }) => ({
+export const TitleMenu = styled("text")({
     fontSize: 24,
     fontWeight: 600,
     marginTop: 20,
     marginBottom: 10
-}));
+});
 
 export const WhapperImageCard = styled("view")({
     height: 150,
-    width: "98%",
+    maxHeight: 150,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

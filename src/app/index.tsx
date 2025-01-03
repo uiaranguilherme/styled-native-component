@@ -1,8 +1,8 @@
 
 import { TitleCard, TitleMenu, WhapperHomePage, WhapperImageCard, WhapperSectionHomePage, WhapperTitleCard } from "./styles";
 import Card from "@/src/components/card";
-import { Image, Pressable } from "react-native"
-import { useRouter } from "../hooks";
+import { useRouter } from "expo-router";
+import { Image, Pressable, Text } from "react-native";
 
 const menu = {
     input: {
@@ -11,52 +11,52 @@ const menu = {
             {
                 label: "Autocomplete",
                 img: require("../../assets/img/autocomplete.png"),
-                url: ""
+                url: "/autocomplete"
             },
             {
                 label: "Button",
                 img: require("../../assets/img/button.png"),
-                url: ""
+                url: "/button"
             },
             {
                 label: "Button Group",
                 img: require("../../assets/img/button-group.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Checkbox",
                 img: require("../../assets/img/checkbox.png"),
-                url: ""
+                url: "/checkbox"
             },
             {
                 label: "Floating Action Button",
                 img: require("../../assets/img/fab.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Radio Group",
                 img: require("../../assets/img/radio-group.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Ratting",
                 img: require("../../assets/img/rating.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Select",
                 img: require("../../assets/img/select.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Slider",
                 img: require("../../assets/img/slider.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Switch",
                 img: require("../../assets/img/switch.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Text Field",
@@ -66,12 +66,12 @@ const menu = {
             {
                 label: "Transfer List",
                 img: require("../../assets/img/transfer-list.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Toggle Button",
                 img: require("../../assets/img/toggle-button.png"),
-                url: ""
+                url: "/text-field"
             },
         ]
     },
@@ -81,42 +81,42 @@ const menu = {
             {
                 label: "Avatar",
                 img: require("../../assets/img/avatar.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Badge",
                 img: require("../../assets/img/badge.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Chip",
                 img: require("../../assets/img/chip.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Divider",
                 img: require("../../assets/img/divider.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "List",
                 img: require("../../assets/img/list.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Table",
                 img: require("../../assets/img/table.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Tooltip",
                 img: require("../../assets/img/tooltip.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Typograph",
                 img: require("../../assets/img/typography.png"),
-                url: ""
+                url: "/text-field"
             },
         ]
     },
@@ -126,22 +126,22 @@ const menu = {
             {
                 label: "Alert",
                 img: require("../../assets/img/alert.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Backdrop",
                 img: require("../../assets/img/backdrop.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Dialog",
                 img: require("../../assets/img/dialog.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Snackbar",
                 img: require("../../assets/img/snackbar.png"),
-                url: ""
+                url: "/text-field"
             }
         ]
     },
@@ -151,12 +151,12 @@ const menu = {
             {
                 label: "Accordion",
                 img: require("../../assets/img/accordion.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Card",
                 img: require("../../assets/img/card.png"),
-                url: ""
+                url: "/text-field"
             },
         ]
     },
@@ -166,36 +166,34 @@ const menu = {
             {
                 label: "Drawer",
                 img: require("../../assets/img/drawer.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Menu",
                 img: require("../../assets/img/menu.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Pagination",
                 img: require("../../assets/img/pagination.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Stepper",
                 img: require("../../assets/img/stepper.png"),
-                url: ""
+                url: "/text-field"
             },
             {
                 label: "Tabs",
                 img: require("../../assets/img/tabs.png"),
-                url: ""
+                url: "/text-field"
             },
         ]
     }
 }
 
 export default () => {
-    const { redirect } = useRouter();
-    
-
+    const router = useRouter();
     return(
         <WhapperHomePage>
             {Object.keys(menu).map((menuKey, index) => {
@@ -204,13 +202,12 @@ export default () => {
                 return(
                     <WhapperSectionHomePage key={index}>
                         <TitleMenu>{menuItem.title}</TitleMenu>
-                        {menuItem.types.map((type, index) => {
-                            
+                        {menuItem.types.map((type, index) => {                            
                             return(
-                                <Pressable onPress={redirect(type.url)} key={index}>
+                                <Pressable onPress={() => router.navigate(type.url)} key={index}>
                                     <Card color="light">
                                         <WhapperImageCard>
-                                            <Image style={{width: "100%", objectFit: "contain"}} source={type.img} />
+                                            <Image style={{width: "100%", height: "100%", objectFit: "cover"}} source={type.img} />
                                         </WhapperImageCard>
                                         <WhapperTitleCard>
                                             <TitleCard>{type.label}</TitleCard>

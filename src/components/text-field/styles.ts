@@ -1,9 +1,12 @@
 import { styled } from "@/lib/styled";
 import { TextFieldProps } from "../index.d";
 import { darken } from "@/lib/styled/utils";
-import { Animated } from "react-native";
 
-export const WhapperTextField = styled("pressable")<Pick<TextFieldProps, "variant" | "designer" | "color" | "fullWidth" | "margin" | "width"> & { focus: boolean }>(({ variant, color, fullWidth, margin, width, focus, theme }) => ({
+export const ComponentTextField = styled("view")({
+
+});
+
+export const WhapperTextField = styled("pressable")<Pick<TextFieldProps, "variant" | "designer" | "color" | "fullWidth" | "margin" | "width" | "error"> & { focus: boolean }>(({ variant, color, fullWidth, margin, width, focus, error, theme }) => ({
     ...(fullWidth && { 
         width : "100%" 
     }),
@@ -38,8 +41,38 @@ export const WhapperTextField = styled("pressable")<Pick<TextFieldProps, "varian
             backgroundColor: color
         }),
     }),
-    ...(variant === "outlined" && {}),
-    ...(variant === "standard" && {}),
+    ...(variant === "outlined" && {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-end",
+        minHeight: 45,
+        position: "relative",
+        borderStyle: "solid",
+        borderWidth: 2,
+        borderColor: focus ? theme.palette.primary.main : darken(theme.palette.background.main, 1),
+        borderRadius: 6,
+        paddingHorizontal: 8,
+        paddingTop: 2,
+        paddingBottom: 4,
+        backgroundColor: "transparent"
+    }),
+    ...(variant === "standard" && {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-end",
+        minHeight: 45,
+        position: "relative",
+        borderBottomWidth: 2,
+        borderColor: focus ? theme.palette.primary.main : darken(theme.palette.background.main, 1),
+        paddingHorizontal: 8,
+        paddingTop: 2,
+        paddingBottom: 4,
+        backgroundColor: "transparent"
+    }),
+    ...(error && {
+        borderColor: theme.palette.error.main,
+        borderWidth: 2
+    })
 }));
 
 export const ContainerTextField = styled("view")({
@@ -56,9 +89,9 @@ export const LabelTextField = styled("text")<{fontSize: number, top: number}>(({
 
 }));
 
-export const LabelHelperText = styled("view")({
-    
-});
+export const LabelHelperText = styled("text")(({ theme }) => ({
+    color: theme.palette.error.main
+}));
 
 export const TextFieldIcon = styled("view")({
 

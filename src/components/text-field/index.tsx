@@ -1,7 +1,8 @@
-import { Animated, Easing, NativeSyntheticEvent, TextInput, TextInputFocusEventData } from "react-native";
-import { TextFieldProps } from "../index.d";
-import { WhapperTextField, ContainerTextField, LabelTextField, LabelHelperText, TextFieldIcon } from "./styles";
+import { WhapperTextField, ContainerTextField, LabelTextField, LabelHelperText, TextFieldIcon, ComponentTextField } from "./styles";
+import { Animated, Easing, TextInput } from "react-native";
 import { useEffect, useRef, useState } from "react";
+import { useCallFunction } from "@/src/hooks";
+import { TextFieldProps } from "../index.d";
 
 const duration = 40;
 const position = {
@@ -17,6 +18,7 @@ export default ({ designer, variant, label, helperText, error, leftIcon, rightIc
     const [isFocus, setFocus] = useState<boolean>(false);
     const [top, setTop] = useState<number>(position.initial);
     const [size, setSize] = useState<number>(font.initial);
+    const [value, setValue] = useState(props.value);
     const input = useRef<TextInput>(null);
 
     const topPosition = useRef(new Animated.Value(position.initial)).current;
@@ -54,23 +56,24 @@ export default ({ designer, variant, label, helperText, error, leftIcon, rightIc
         }).start();
     }
 
-    const handleFocusInput = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
-        setFocus(true);
-        animateFocus();
-        if(props.onFocus) props.onFocus(event);
-    };
-
-    const handleBlurInput = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
-        setFocus(false);
-        animateBlur();
-        if(props.onBlur) props.onBlur(event);
-    };  
-    
-    const handleFocusWhapper = () => {
+    const onFocus = () => {
         setFocus(true);
         animateFocus();
         input.current?.focus();
-    };
+    }
+
+    const onBlur = () => {
+        setFocus(false);
+        if(value === undefined || value === "") animateBlur();
+    }
+
+    const changeText = (value: string) => setValue(value);
+
+    const handleFocusInput = typeof props.onFocus === "function" ? useCallFunction(onFocus, props.onFocus) : onFocus;
+    
+    const handleBlurInput =  typeof props.onBlur === "function" ? useCallFunction(onBlur, props.onBlur) : onBlur;
+
+    const handleChangeText = typeof props.onChangeText === "function" ? useCallFunction(changeText, props.onChangeText) : changeText;
 
     useEffect(() => {
         const topListenerId = topPosition.addListener(({ value }) => setTop(value));
@@ -80,30 +83,41 @@ export default ({ designer, variant, label, helperText, error, leftIcon, rightIc
             topPosition.removeListener(topListenerId);
             fontSize.removeListener(fontSizeListenerId);
         }
-    }, [])
-    
+    }, []);
 
     return(
-        <WhapperTextField focus={isFocus} onPress={handleFocusWhapper} designer={designer} variant={variant} color={color} fullWidth={fullWidth} margin={margin} width={width}>
-            <LabelTextField top={top} fontSize={size}>{label}</LabelTextField>
-                {leftIcon && (
-                    <TextFieldIcon>
-                       {leftIcon}
-                    </TextFieldIcon>
-                )}
-            <ContainerTextField>
-                <TextInput ref={input} onBlur={handleBlurInput} onFocus={handleFocusInput} style={{padding: 0, margin: 0, fontSize: 14, fontWeight: 600 }} cursorColor="black" {...props} />
-            </ContainerTextField>
-                {rightIcon && (
-                    <TextFieldIcon>
-                       {leftIcon}
-                    </TextFieldIcon>
-                )}
-            {helperText && (
+        <ComponentTextField>
+            <WhapperTextField 
+                focus={isFocus} 
+                onPress={onFocus} 
+                designer={designer} 
+                variant={variant} 
+                color={color} 
+                fullWidth={fullWidth} 
+                margin={margin} 
+                width={width} 
+                error={error}
+            >
+                <LabelTextField top={top} fontSize={size}>{label}</LabelTextField>
+                <ContainerTextField>
+                    {leftIcon && (
+                        <TextFieldIcon>
+                        {leftIcon}
+                        </TextFieldIcon>
+                    )}
+                    <TextInput {...props} ref={input} onBlur={handleBlurInput} onFocus={handleFocusInput} onChangeText={handleChangeText} style={{padding: 0, margin: 0, fontSize: 14, fontWeight: 600 }} cursorColor="black" />
+                    {rightIcon && (
+                        <TextFieldIcon>
+                        {leftIcon}
+                        </TextFieldIcon>
+                    )}
+                </ContainerTextField>
+            </WhapperTextField>
+            {error && (
                 <LabelHelperText>
                     {error ? helperText : ""}
                 </LabelHelperText>
             )}
-        </WhapperTextField>
+        </ComponentTextField>
     );
 }

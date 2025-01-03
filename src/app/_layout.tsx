@@ -25,7 +25,7 @@ export default function RootLayout() {
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="text-field" options={{ headerShown: false }} />
+      <Stack.Screen name="button" />
       <Stack.Screen name="+not-found" />
     </Stack>
   );

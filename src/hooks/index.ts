@@ -1,3 +1,3 @@
 import useRouter from "./use-router";
-
-export { useRouter }
+import useCallFunction from "./use-call-function";
+export { useRouter, useCallFunction }

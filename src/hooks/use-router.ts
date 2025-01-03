@@ -1,6 +1,6 @@
 /** @format */
 
-import { Href, Redirect, usePathname, useRouter } from "expo-router";
+import { Href, usePathname, useRouter } from "expo-router";
 
 export default () => {
   const router = useRouter();
@@ -8,7 +8,9 @@ export default () => {
 
   const redirect = (href: Href) => {    
     return () => {
-      router.navigate("/text-field")
+      console.log("href", href);
+      
+      router.navigate(href)
     };
   };
 

@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useTheme } from "../hooks"; 
 import { callback, component, componentProps, componentStyle } from "./index.d";
 import { View, Text, Pressable, ScrollView } from "../components";
+import { Animated } from "react-native";
 
 
 const Component = <C extends component, P>(type: component, props: componentProps<C, P>) => {
