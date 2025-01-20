@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { ViewStyle, TextInputProps, PressableProps } from "react-native";
+import { ViewStyle, TextInputProps, PressableProps, ViewProps } from "react-native";
 
 declare namespace UxComponents {
     interface Margin {
@@ -15,7 +15,8 @@ declare namespace UxComponents {
         l: number,
         r: number
     }
-    
+
+    type Sizes = "small" | "medium" | "large"    
     type Color = "primary" | "secundary" | string;
     type Background = "main" | "light" | "dark";
     type Elevation = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
@@ -47,6 +48,15 @@ declare namespace UxComponents {
         children: string
         leftIcon?: ReactNode
         rightIcon?: ReactNode
+    }
+
+    interface SwitchProps extends ViewProps {
+        value: boolean
+        label?: string
+        size: Sizes
+        disabled?: boolean
+        direction?: ViewStyle["flexDirection"]
+        handleChange: (value: boolean) => void
     }
 }
 
