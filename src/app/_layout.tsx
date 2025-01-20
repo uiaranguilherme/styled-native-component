@@ -26,6 +26,7 @@ export default function RootLayout() {
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="button" />
+      <Stack.Screen name="switch" />
       <Stack.Screen name="+not-found" />
     </Stack>
   );

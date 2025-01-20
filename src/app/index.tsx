@@ -56,7 +56,7 @@ const menu = {
             {
                 label: "Switch",
                 img: require("../../assets/img/switch.png"),
-                url: "/text-field"
+                url: "/switch"
             },
             {
                 label: "Text Field",
